@@ -115,7 +115,7 @@ if you prefer to use only lock-free data structures.
 The following part is a beginner-friendly example to explain why we need data
 structures specifically designed for multicore programming.
 
-Let's write a classic mutable data structure : a queue. We are going to do a
+Let's write a classic mutable data structure: a queue. We are going to do a
 basic implementation the way it may be done for sequential use and show why it
 is not working well with multiple domains.
 
@@ -405,18 +405,18 @@ preserve are atomic consistency (or linearizability) and all eventual progress
 properties, like lock freedom. Unfortunately, Saturn's data structures are not
 composable.
 
-Let's illustrate that with an example. We want to write a slitting algorithm on
-Saturn's queue: several domains simultaneously slit a source queue into two
+Let's illustrate that with an example. We want to write a splitting algorithm on
+Saturn's queue: several domains simultaneously split a source queue into two
 destination queues in respect to a predicate. We expect our splitting function
 to be linearisable, which would manifest here by the source queue order is
-preserved in the destination queues. For example, `slit [0;1;2;3;4]`, with a
+preserved in the destination queues. For example, `split [0;1;2;3;4]`, with a
 predicate that returns `true` for even numbers and `false` otherwise, should
-returns `[0';2;4]` and `[1;3]`.
+returns `[0;2;4]` and `[1;3]`.
 
-Here is how we can write `slit` with the functions provided by Saturn's queue.
+Here is how we can write `split` with the functions provided by Saturn's queue.
 
 ```ocaml
-let slit source pred true_dest false_dest : bool =
+let split source pred true_dest false_dest : bool =
   match Queue.pop source with
   | None -> false
   | Some elt ->
@@ -503,7 +503,7 @@ Note that in the case above, we transfer from and to a queue of the same
 `val transfer : t -> t -> unit` function with the right properties and add it
 directly to `Saturn.Queue` module.
 
-If you think of any such functions, that is useful and missing, let's us know by
+If you think of any such functions, that is useful and missing, let us know by
 creating an issue!
 
 #### Composable Parallelism-Safe Data Structures
